@@ -78,9 +78,9 @@ class App extends Component {
                 </thead>
                 <tbody>
                   {
-                    this.state.lista.map((autor) => {
+                    this.state.lista.map((autor, index) => {
                       return (
-                        <tr>
+                        <tr key={index}>
                           <td>{autor.nome}</td>
                           <td>{autor.email}</td>
                         </tr>
