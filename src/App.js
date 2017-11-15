@@ -25,9 +25,9 @@ class App extends Component {
       url: 'http://localhost:8080/api/autores',
       dataType: 'json',
       success: function(resposta) {
-        this.setState = {
+        this.setState({
           lista: resposta
-        };
+        })
       }.bind(this)
     });
   }
