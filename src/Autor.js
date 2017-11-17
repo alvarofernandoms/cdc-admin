@@ -34,11 +34,18 @@ class FormularioAutor extends Component {
       }),
       success: function(novaListagem) {
         PubSub.publish('atualiza-lista-autores', novaListagem);
-      },
+        this.setState({
+          nome: '',
+          email: '',
+          senha: ''
+        });
+      }.bind(this),
       error: function(resposta) {
-        if (resposta.status === 400) {
+        if (resposta.status === 400)
           new TratadorErros().publicaErros(resposta.responseJSON);
-        }
+      },
+      beforeSend: function() {
+        PubSub.publish('limpa-erros', {});
       }
     });
   }
