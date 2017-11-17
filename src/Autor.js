@@ -3,7 +3,7 @@ import InputCustomizado from './componentes/InputCustomizado';
 import SubmitCustomizado from './componentes/SubmitCustomizado';
 import $ from 'jquery';
 
-export class FormularioAutor extends Component {
+class FormularioAutor extends Component {
 
   constructor() {
     super();
@@ -32,10 +32,8 @@ export class FormularioAutor extends Component {
       }),
       success: function(resposta) {
         console.log('Dados sendo enviados com sucesso!');
-        this.setState({
-          lista: resposta
-        }).bind(this);
-      },
+        this.props.callbackAtualizaListagem(resposta);
+      }.bind(this),
       error: function(reposta) {
         console.log("erro");
       }
@@ -75,26 +73,7 @@ export class FormularioAutor extends Component {
   }
 }
 
-export class TabelaAutores extends Component {
-
-  constructor() {
-    super();
-    this.state = {
-      lista: []
-    };
-  }
-
-  componentDidMount() {
-    $.ajax({
-      url: 'http://localhost:8080/api/autores',
-      dataType: 'json',
-      success: function(resposta) {
-        this.setState({
-          lista: resposta
-        })
-      }.bind(this)
-    });
-  }
+class TabelaAutores extends Component {
 
   render() {
     return (
@@ -107,7 +86,7 @@ export class TabelaAutores extends Component {
             </tr>
           </thead>
           <tbody>
-            { this.state.lista.map((autor, index) => {
+            { this.props.lista.map((autor, index) => {
                 return (
                   <tr key={ index }>
                     <td>
@@ -125,4 +104,42 @@ export class TabelaAutores extends Component {
       );
   }
 
+}
+
+export default class AutorBox extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      lista: []
+    };
+    this.atualizaListagem = this.atualizaListagem.bind(this);
+  }
+
+  componentDidMount() {
+    $.ajax({
+      url: 'http://localhost:8080/api/autores',
+      dataType: 'json',
+      success: function(resposta) {
+        this.setState({
+          lista: resposta
+        });
+      }.bind(this)
+    });
+  }
+
+  atualizaListagem(novaLista) {
+    this.setState({
+      lista: novaLista
+    })
+  }
+
+  render() {
+    return (
+      <div>
+        <FormularioAutor callbackAtualizaListagem={ this.atualizaListagem } />
+        <TabelaAutores lista={ this.state.lista } />
+      </div>
+      );
+  }
 }
