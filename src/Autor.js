@@ -3,6 +3,7 @@ import InputCustomizado from './componentes/InputCustomizado';
 import SubmitCustomizado from './componentes/SubmitCustomizado';
 import $ from 'jquery';
 import PubSub from 'pubsub-js';
+import TratadorErros from './TratadorErros';
 
 class FormularioAutor extends Component {
 
@@ -34,8 +35,10 @@ class FormularioAutor extends Component {
       success: function(novaListagem) {
         PubSub.publish('atualiza-lista-autores', novaListagem);
       },
-      error: function(reposta) {
-        console.log("erro");
+      error: function(resposta) {
+        if (resposta.status === 400) {
+          new TratadorErros().publicaErros(resposta.responseJSON);
+        }
       }
     });
   }
