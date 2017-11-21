@@ -75,18 +75,18 @@ class FormularioLivro extends Component {
         <form className="pure-form pure-form-aligned" onSubmit={ this.enviaForm } method="post">
           <InputCustomizado id="titulo" type="text" name="titulo" value={ this.state.titulo } onChange={ this.setTitulo } label="Título" />
           <InputCustomizado id="preco" type="number" name="preco" value={ this.state.preco } onChange={ this.setPreco } label="Preço" />
-          <div className="pure-control-group"  style={ { marginTop: 10 } }>
-            <label>
+          <div className="pure-control-group" style={ { marginTop: 10 } }>
+            <label htmlFor="autorId">
               Autor
-              <select label="Autor" value={ this.state.autorId } name="autorId" onChange={ this.setAutorId }>
-                <option value="">Selecione</option>
-                { this.props.lista.map(function(autor) {
-                    return <option key={ autor.id } value={ autor.id }>
-                             { autor.nome }
-                           </option>;
-                  }) }
-              </select>
             </label>
+            <select value={ this.state.autorId } name="autorId" onChange={ this.setAutorId }>
+              <option value="">Selecione</option>
+              { this.props.lista.map(function(autor) {
+                  return <option key={ autor.id } value={ autor.id }>
+                           { autor.nome }
+                         </option>;
+                }) }
+            </select>
           </div>
           <SubmitCustomizado id="submit" type="submit" />
         </form>
