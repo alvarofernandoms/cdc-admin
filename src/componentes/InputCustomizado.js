@@ -32,7 +32,7 @@ export default class InputCustomizado extends Component {
         <label htmlFor={ this.props.id }>
           { this.props.label }
         </label>
-        <input id={ this.props.id } type={ this.props.type } name={ this.props.name } value={ this.props.value } onChange={ this.props.onChange } />
+        <input {...this.props} />
         <span className="erro" style={ { marginLeft: 20 } }>{ this.state.msgErro }</span>
       </div>
       );
